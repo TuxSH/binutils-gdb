@@ -6896,8 +6896,68 @@ elf_x86_64_relocs_compatible (const bfd_target *input,
 	  && _bfd_elf_relocs_compatible (input, output));
 }
 
+/* Parse x86-64 GNU properties.  */
+
+static enum elf_property_kind
+elf_x86_64_parse_gnu_properties (bfd *abfd, unsigned int type,
+				 bfd_byte *ptr, unsigned int datasz)
+{
+  elf_property *prop;
+
+  switch (type)
+    {
+    case GNU_PROPERTY_X86_ISA_1_USED:
+    case GNU_PROPERTY_X86_ISA_1_NEEDED:
+      if (datasz != 4)
+	{
+	  _bfd_error_handler
+	    ((type == GNU_PROPERTY_X86_ISA_1_USED
+	      ? _("error: %B: <corrupt x86 ISA used size: 0x%x>\n")
+	      : _("error: %B: <corrupt x86 ISA needed size: 0x%x>\n")),
+	     abfd, datasz);
+	  return property_corrupted;
+	}
+      prop = _bfd_elf_get_property (abfd, type, datasz);
+      prop->u.value = bfd_h_get_32 (abfd, ptr);
+      prop->kind = property_value;
+      break;
+
+    default:
+      return property_ignored;
+    }
+
+  return property_value;
+}
+
+/* Merge x86-64 GNU property.  Return TRUE if property is updated.  */
+
+static bfd_boolean
+elf_x86_64_merge_gnu_properties (bfd *abfd ATTRIBUTE_UNUSED,
+				 elf_property *prop,
+				 elf_property *p)
+{
+  unsigned int value;
+  bfd_boolean updated = FALSE;
+
+  switch (prop->type)
+    {
+    case GNU_PROPERTY_X86_ISA_1_USED:
+    case GNU_PROPERTY_X86_ISA_1_NEEDED:
+      value = prop->u.value;
+      prop->u.value = value | p->u.value;
+      updated = value != (unsigned int) prop->u.value;
+      break;
+
+    default:
+      /* Never should happen.  */
+      abort ();
+    }
+
+  return updated;
+}
+
 static const struct bfd_elf_special_section
-  elf_x86_64_special_sections[]=
+elf_x86_64_special_sections[]=
 {
   { STRING_COMMA_LEN (".gnu.linkonce.lb"), -2, SHT_NOBITS,   SHF_ALLOC + SHF_WRITE + SHF_X86_64_LARGE},
   { STRING_COMMA_LEN (".gnu.linkonce.lr"), -2, SHT_PROGBITS, SHF_ALLOC + SHF_X86_64_LARGE},
@@ -6988,6 +7048,10 @@ static const struct bfd_elf_special_section
   ((bfd_boolean (*) (bfd *, struct bfd_link_info *, asection *)) bfd_true)
 #define elf_backend_fixup_symbol \
   elf_x86_64_fixup_symbol
+#define elf_backend_parse_gnu_properties \
+  elf_x86_64_parse_gnu_properties
+#define elf_backend_merge_gnu_properties \
+ elf_x86_64_merge_gnu_properties
 
 #include "elf64-target.h"
 

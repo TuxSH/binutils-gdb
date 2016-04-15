@@ -1215,6 +1215,8 @@ gld${EMULATION_NAME}_after_open (void)
 	}
     }
 
+  _bfd_elf_link_setup_gnu_properties (&link_info);
+
   if (bfd_link_relocatable (&link_info))
     {
       if (link_info.execstack == ! link_info.noexecstack)
