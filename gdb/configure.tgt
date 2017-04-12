@@ -118,6 +118,10 @@ arm*-*-symbianelf*)
 	# Target: SymbianOS/arm
 	gdb_target_obs="arm.o arm-get-next-pcs.o arm-tdep.o arm-symbian-tdep.o"
 	;;
+arm*-3ds*)
+	# Target: 3DS
+	gdb_target_obs="arm.o arm-get-next-pcs.o arm-tdep.o arm-3ds-tdep.o"
+	;;
 arm*-*-*)
 	# Target: ARM embedded system
 	gdb_target_obs="arm.o arm-get-next-pcs.o arm-tdep.o"
