@@ -141,10 +141,18 @@
   <syscall name="QueryProcessMemory" number="125" group="process,memory"/>
 
   <syscall name="CustomBackdoor" number="128" group="custom,kernel"/>
-  <syscall name="ConvertVAToPA" number="129" group="custom,memory"/>
-  <syscall name="FlushDataCacheRange" number="130" group="custom,io,memory"/>
-  <syscall name="FlushEntireDataCache" number="131" group="custom,io,memory"/>
-  <syscall name="InvalidateInstructionCacheRange" number="132" group="custom,io,memory"/>
-  <syscall name="InvalidateEntireInstructionCache" number="133" group="custom,io,memory"/>
-  <syscall name="MapProcessMemoryWithSource" number="134" group="custom,process,memory"/>
+
+  <syscall name="ConvertVAToPA" number="144" group="custom,io,memory"/>
+  <syscall name="FlushDataCacheRange" number="145" group="custom,io,memory"/>
+  <syscall name="FlushEntireDataCache" number="146" group="custom,io,memory"/>
+  <syscall name="InvalidateInstructionCacheRange" number="147" group="custom,io,memory"/>
+  <syscall name="InvalidateEntireInstructionCache" number="148" group="custom,io,memory"/>
+  
+  <syscall name="MapProcessMemoryEx" number="160" group="custom,process,memory"/>
+  <syscall name="ControlMemoryEx" number="161" group="custom,memory"/>
+
+  <syscall name="ControlService" number="176" group="custom,ipc"/>
+  <syscall name="CopyHandle" number="177" groups="custom,synchronization,ipc,thread,process,debug"/>
+  <syscall name="TranslateHandle" number="178" groups="custom,synchronization,ipc,thread,process,debug"/>
+
 </syscalls_info>

@@ -148,6 +148,11 @@ arm_3ds_get_syscall_number (struct gdbarch *gdbarch,
       unsigned long svc_operand = (0x000000ff & this_instr);
       svc_number = svc_operand;
     }
+  
+  if (svc_number == 0xfe)
+    {
+      regcache_cooked_read_unsigned (regs, 12, &svc_number);
+    }
 
   return svc_number;
 }
