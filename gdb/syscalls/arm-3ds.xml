@@ -46,7 +46,7 @@
   <syscall name="UnmapMemoryBlock" number="32" groups="memory,ipc"/>
 
   <syscall name="CreateAddressArbiter" number="33" groups="memory,synchronization"/>
-  <syscall name="ArbitratreAddress" number="34" groups="memory,synchronization"/>
+  <syscall name="ArbitrateAddress" number="34" groups="memory,synchronization"/>
 
   <syscall name="CloseHandle" number="35" groups="synchronization,ipc,memory,thread,process,debug"/>
   <syscall name="WaitSynchronization" number="36" groups="synchronization,ipc,thread,process,debug"/>
