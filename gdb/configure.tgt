@@ -123,8 +123,8 @@ arm*-3ds*)
 	gdb_target_obs="arm.o arm-get-next-pcs.o arm-tdep.o arm-3ds-tdep.o"
 	;;
 arm*-*-*)
-	# Target: ARM embedded system
-	gdb_target_obs="arm.o arm-get-next-pcs.o arm-tdep.o"
+	# Target: ARM embedded system (+ 3DS)
+	gdb_target_obs="arm.o arm-get-next-pcs.o arm-tdep.o arm-3ds-tdep.o"
 	gdb_sim=../sim/arm/libsim.a
 	;;
 
