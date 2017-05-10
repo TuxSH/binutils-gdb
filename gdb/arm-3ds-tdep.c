@@ -69,6 +69,34 @@ arm_3ds_get_next_pcs_syscall_next_pc (struct arm_get_next_pcs *self)
   return next_pc;
 }
 
+static std::vector<CORE_ADDR>
+arm_3ds_software_single_step (struct regcache *regcache)
+{
+  struct gdbarch *gdbarch = get_regcache_arch (regcache);
+  struct arm_get_next_pcs next_pcs_ctx;
+
+  /* If the target does have hardware single step, GDB doesn't have
+     to bother software single step.  */
+  if (target_can_do_single_step () == 1)
+    return {};
+
+  arm_get_next_pcs_ctor (&next_pcs_ctx,
+			 &arm_3ds_get_next_pcs_ops,
+			 gdbarch_byte_order (gdbarch),
+			 gdbarch_byte_order_for_code (gdbarch),
+			 1,
+			 regcache);
+
+  std::vector<CORE_ADDR> next_pcs = arm_get_next_pcs (&next_pcs_ctx);
+
+  for (CORE_ADDR &pc_ref : next_pcs)
+    pc_ref = gdbarch_addr_bits_remove (gdbarch, pc_ref);
+
+  return next_pcs;
+}
+
+#if 0 // GDB <= 7.12.1
+
 static VEC (CORE_ADDR) *
 arm_3ds_software_single_step (struct regcache *regcache)
 {
@@ -105,6 +133,8 @@ arm_3ds_software_single_step (struct regcache *regcache)
 
   return next_pcs;
 }
+
+#endif
 
 static LONGEST
 arm_3ds_get_syscall_number (struct gdbarch *gdbarch,
