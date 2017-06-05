@@ -149,7 +149,8 @@
   <syscall name="InvalidateEntireInstructionCache" number="148" group="custom,io,memory"/>
   
   <syscall name="MapProcessMemoryEx" number="160" group="custom,process,memory"/>
-  <syscall name="ControlMemoryEx" number="161" group="custom,memory"/>
+  <syscall name="UnmapProcessMemoryEx" number="161" group="custom,process,memory"/>
+  <syscall name="ControlMemoryEx" number="162" group="custom,memory"/>
 
   <syscall name="ControlService" number="176" group="custom,ipc"/>
   <syscall name="CopyHandle" number="177" groups="custom,synchronization,ipc,thread,process,debug"/>
